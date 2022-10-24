@@ -1,6 +1,7 @@
 'use strict';
 
 // load modules
+const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const db = require('./models/index');
@@ -19,6 +20,9 @@ app.use(morgan('dev'));
 
 // setup express.json to parse incoming json requests
 app.use(express.json());
+
+// Enable all CORS Requests
+app.use(cors());
 
 // async IIFE - Test db connection
 (async ()=> {
