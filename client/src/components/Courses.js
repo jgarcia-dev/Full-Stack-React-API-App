@@ -19,7 +19,9 @@ const Courses = () => {
                 <p>Loading...</p>
                 :
                 courses.map( course => (
-                    <a href={`http://localhost:5000/api/courses/${course.id}`} key={course.id}>
+                    <a href={`http://localhost:5000/api/courses/${course.id}`} 
+                        key={course.id}
+                        className="course--module course--link">
                         <h2 className="course--label">Course</h2>
                         <h3 className="course--title">{course.title}</h3>
                     </a>
