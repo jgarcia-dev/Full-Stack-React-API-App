@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import UpdateCourse from "./components/UpdateCourse";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
+import UserSignOut from "./components/UserSignOut";
 
 function App() {
   return (
