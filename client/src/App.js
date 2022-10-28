@@ -1,7 +1,9 @@
 
 import Courses from "./components/Courses";
+import CreateCourse from "./components/CreateCourse";
 import CourseDetail from "./components/CourseDetail";
 import Header from "./components/Header";
+import UpdateCourse from "./components/UpdateCourse";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
 
@@ -13,7 +15,9 @@ function App() {
         {/* <Courses /> */}
         {/* <CourseDetail /> */}
         {/* <UserSignIn /> */}
-        <UserSignUp />
+        {/* <UserSignUp /> */}
+        {/* <CreateCourse /> */}
+        <UpdateCourse />
       </main>
     </>
   );
