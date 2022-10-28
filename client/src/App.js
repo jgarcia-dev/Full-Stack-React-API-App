@@ -2,6 +2,8 @@
 import Courses from "./components/Courses";
 import CourseDetail from "./components/CourseDetail";
 import Header from "./components/Header";
+import UserSignIn from "./components/UserSignIn";
+import UserSignUp from "./components/UserSignUp";
 
 function App() {
   return (
@@ -9,7 +11,9 @@ function App() {
       <Header />
       <main>
         {/* <Courses /> */}
-        <CourseDetail />
+        {/* <CourseDetail /> */}
+        {/* <UserSignIn /> */}
+        <UserSignUp />
       </main>
     </>
   );
