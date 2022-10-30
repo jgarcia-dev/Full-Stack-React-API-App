@@ -1,3 +1,5 @@
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import Courses from "./components/Courses";
 import CreateCourse from "./components/CreateCourse";
@@ -13,12 +15,15 @@ function App() {
     <>
       <Header />
       <main>
+        <Routes>
+          <Route path="/" element={<Courses />} />
+        </Routes>
         {/* <Courses /> */}
         {/* <CourseDetail /> */}
         {/* <UserSignIn /> */}
         {/* <UserSignUp /> */}
         {/* <CreateCourse /> */}
-        <UpdateCourse />
+        {/* <UpdateCourse /> */}
       </main>
     </>
   );
