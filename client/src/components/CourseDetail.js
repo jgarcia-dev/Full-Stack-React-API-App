@@ -12,7 +12,7 @@ const CourseDetail = () => {
             .then(data => setCourseDetails(data))
             .catch(err => console.log('Error fetching course details', err))
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [id]);
 
     const getParagraphs = str => {
         const paragraphs = str
