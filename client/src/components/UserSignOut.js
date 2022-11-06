@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext, useEffect }from 'react';
+import { Navigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext'
 
 const UserSignOut = () => {
+    const { signOut } = useContext(UserContext);
+
+    useEffect(() => {
+        signOut();
+    });
+
     return (
-        <>
-            {/* Does not render any elements, it signs out the authenticated user and redirects the user to the default route(i.e. the list of courses) */}
-        </>
+        <Navigate replace to="/" />
     )
 }
 

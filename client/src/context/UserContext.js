@@ -20,9 +20,14 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
+    const signOut = () => {
+        setAuthenticatedUser(null);
+    }
+
     const value = {
         authenticatedUser,
         signIn,
+        signOut
     }
 
     return (
