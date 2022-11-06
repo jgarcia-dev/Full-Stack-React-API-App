@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown'
 
 const CourseDetail = () => {
     const [courseDetails, setCourseDetails] = useState([]);
@@ -13,23 +14,6 @@ const CourseDetail = () => {
             .catch(err => console.log('Error fetching course details', err))
             .finally(() => setIsLoading(false));
     }, [id]);
-
-    const getParagraphs = str => {
-        const paragraphs = str
-            .split("\n\n")
-            .map((paragraph,index) => <p key={index}>{paragraph}</p>);
-
-        return paragraphs
-    }
-
-    const getMaterialItems = str => {
-        const materialItems = str
-            .slice(2, -1)
-            .split("\n* ")
-            .map((material, index) => <li key={index}>{material}</li>);
-
-        return materialItems;
-    }
 
     return (
         <>
@@ -52,7 +36,7 @@ const CourseDetail = () => {
                                     <h4 className="course--name">{ courseDetails.title }</h4>
                                     <p>By { courseDetails.user.firstName + " " + courseDetails.user.lastName }</p>
                                     { courseDetails.description 
-                                        ? getParagraphs(courseDetails.description)
+                                        ?  <ReactMarkdown children={courseDetails.description}/>   
                                         : <p>No Description</p>
                                     }
                                 </div>
@@ -67,9 +51,7 @@ const CourseDetail = () => {
                                     { courseDetails.materialsNeeded
                                         ? <>
                                             <h3 className="course--detail--title">Materials Needed</h3>
-                                            <ul className="course--detail--list">
-                                                { getMaterialItems(courseDetails.materialsNeeded) }
-                                            </ul>
+                                            <ReactMarkdown children={courseDetails.materialsNeeded} className="course--detail--list" />
                                         </>
                                         : null
                                     }
