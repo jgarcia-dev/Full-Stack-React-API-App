@@ -10,9 +10,11 @@ import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
 import UserSignOut from "./components/UserSignOut";
 
+import UserContextProvider from './context/UserContext';
+
 function App() {
   return (
-    <>
+    <UserContextProvider>
       <Header />
       <main>
         <Routes>
@@ -24,14 +26,8 @@ function App() {
           <Route path="/signup" element={<UserSignUp />} />
           <Route path="/signout" element={<UserSignOut />} />
         </Routes>
-        {/* <Courses /> */}
-        {/* <CourseDetail /> */}
-        {/* <UserSignIn /> */}
-        {/* <UserSignUp /> */}
-        {/* <CreateCourse /> */}
-        {/* <UpdateCourse /> */}
       </main>
-    </>
+    </UserContextProvider>
   );
 }
 
