@@ -12,7 +12,10 @@ const UserContextProvider = ({ children }) => {
         
         if (res.status === 200) {
             const user = await res.json();
-            setAuthenticatedUser(user);
+            setAuthenticatedUser({
+                ...user,
+                password
+            })
         } else if (res.status === 401) {
             setAuthenticatedUser(null);
         } else {
