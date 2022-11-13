@@ -75,7 +75,7 @@ const CreateCourse = () => {
                             id="courseTitle"
                             name="title"
                             type="text"
-                            value={formData.title}
+                            value={formData.title || ""}
                             onChange={handleChange}
                             ref={courseTitleRef}
                         />
@@ -84,7 +84,7 @@ const CreateCourse = () => {
                         <textarea
                             id="courseDescription"
                             name="description"
-                            value={formData.description}
+                            value={formData.description || ""}
                             onChange={handleChange}
                         ></textarea>
                     </div>
@@ -94,14 +94,14 @@ const CreateCourse = () => {
                             id="estimatedTime"
                             name="estimatedTime"
                             type="text"
-                            value={formData.estimatedTime}
+                            value={formData.estimatedTime || ""}
                             onChange={handleChange}
                         />
                         <label htmlFor="materialsNeeded">Materials Needed</label>
                         <textarea 
                             id="materialsNeeded"
                             name="materialsNeeded"
-                            value={formData.materialsNeeded}
+                            value={formData.materialsNeeded || ""}
                             onChange={handleChange}
                         ></textarea>
                     </div>
