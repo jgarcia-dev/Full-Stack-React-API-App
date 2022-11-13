@@ -10,6 +10,7 @@ import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
 import UserSignOut from "./components/UserSignOut";
 import PrivateRoute from "./components/PrivateRoute";
+import NotFound from './components/NotFound';
 
 import UserContextProvider from './context/UserContext';
 
@@ -30,6 +31,8 @@ function App() {
             <Route path="create" element={<CreateCourse />} />
             <Route path=":id/update" element={<UpdateCourse />} />
           </Route>
+          {/* Error Route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </UserContextProvider>
