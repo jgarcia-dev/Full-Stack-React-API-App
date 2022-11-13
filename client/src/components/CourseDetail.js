@@ -34,7 +34,7 @@ const CourseDetail = () => {
         <>
             <div className="actions--bar">
                 <div className="wrap">
-                    { authenticatedUser && authenticatedUser.id.toString() === id
+                    { authenticatedUser && authenticatedUser.id === courseDetails.userId
                         ? 
                         <>
                             <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
