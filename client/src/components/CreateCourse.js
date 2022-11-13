@@ -4,7 +4,7 @@ import { UserContext } from '../context/UserContext';
 import apiRequest from '../utilities/apiRequest';
 
 const CreateCourse = () => {
-    const [courseDetails, setCourseDetails] = useState({});
+    const [formData, setFormData] = useState({});
     const [responseErrors, setResponseErrors] = useState([]);
     const courseTitleRef = useRef();
     const navigate = useNavigate();
@@ -15,8 +15,8 @@ const CreateCourse = () => {
     }, []);
 
     const handleChange = (e) => {
-        setCourseDetails({
-            ...courseDetails,
+        setFormData({
+            ...formData,
             [e.target.name]: e.target.value
         })
     }
@@ -29,7 +29,7 @@ const CreateCourse = () => {
                 password: authenticatedUser.password
             }
             const courseData = {
-                ...courseDetails,
+                ...formData,
                 userId: authenticatedUser.id
             }
             const res = await apiRequest("/courses", "POST", courseData, true, credentials);
@@ -75,7 +75,7 @@ const CreateCourse = () => {
                             id="courseTitle"
                             name="title"
                             type="text"
-                            value={courseDetails.title}
+                            value={formData.title}
                             onChange={handleChange}
                             ref={courseTitleRef}
                         />
@@ -84,7 +84,7 @@ const CreateCourse = () => {
                         <textarea
                             id="courseDescription"
                             name="description"
-                            value={courseDetails.description}
+                            value={formData.description}
                             onChange={handleChange}
                         ></textarea>
                     </div>
@@ -94,14 +94,14 @@ const CreateCourse = () => {
                             id="estimatedTime"
                             name="estimatedTime"
                             type="text"
-                            value={courseDetails.estimatedTime}
+                            value={formData.estimatedTime}
                             onChange={handleChange}
                         />
                         <label htmlFor="materialsNeeded">Materials Needed</label>
                         <textarea 
                             id="materialsNeeded"
                             name="materialsNeeded"
-                            value={courseDetails.materialsNeeded}
+                            value={formData.materialsNeeded}
                             onChange={handleChange}
                         ></textarea>
                     </div>
