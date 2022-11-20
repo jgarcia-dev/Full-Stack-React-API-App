@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import { UserContext } from '../context/UserContext';
 import NotFound from './NotFound';
+import apiRequest from '../utilities/apiRequest';
 
 const CourseDetail = () => {
     const [courseDetails, setCourseDetails] = useState([]);
@@ -10,6 +11,7 @@ const CourseDetail = () => {
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
     const { authenticatedUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -30,6 +32,24 @@ const CourseDetail = () => {
         fetchCourses();
     }, []);
 
+    const handleDelete = async () => {
+        try {
+            const credentials = {
+                username: authenticatedUser.emailAddress,
+                password: authenticatedUser.password
+            }
+            const res = await apiRequest(`/courses/${id}`, "DELETE", null, true, credentials);
+            if (res.status === 204) {
+                navigate("/");
+            }
+            else {
+                console.log("Course not deleted");
+            }
+        } catch {
+            console.log("Something went wrong");
+        }
+    }
+
     return (
         <>
             <div className="actions--bar">
@@ -38,7 +58,7 @@ const CourseDetail = () => {
                         ? 
                         <>
                             <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
-                            <Link className="button" to="/">DeleteCourse</Link>
+                            <button className="button" onClick={handleDelete}>DeleteCourse</button>
                         </>
                         : null
                     }
