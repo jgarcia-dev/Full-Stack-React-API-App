@@ -92,7 +92,7 @@ const UpdateCourse = () => {
                                     id="courseTitle" 
                                     name="title" 
                                     type="text" 
-                                    value={courseDetails.title}
+                                    value={courseDetails.title || ""}
                                     onChange={handleChange}
                                 />
                                 <p>{`By ${courseDetails.user.firstName} ${courseDetails.user.lastName}`}</p>
@@ -100,7 +100,7 @@ const UpdateCourse = () => {
                                 <textarea 
                                     id="courseDescription" 
                                     name="description" 
-                                    value={courseDetails.description}
+                                    value={courseDetails.description || ""}
                                     onChange={handleChange}
                                 ></textarea>
                             </div>
@@ -110,14 +110,14 @@ const UpdateCourse = () => {
                                     id="estimatedTime" 
                                     name="estimatedTime" 
                                     type="text"
-                                    value={courseDetails.estimatedTime}
+                                    value={courseDetails.estimatedTime || ""}
                                     onChange={handleChange}
                                 />
                                 <label htmlFor="materialsNeeded">Materials Needed</label>
                                 <textarea 
                                     id="materialsNeeded" 
                                     name="materialsNeeded"
-                                    value={courseDetails.materialsNeeded}
+                                    value={courseDetails.materialsNeeded || ""}
                                     onChange={handleChange}
                                 ></textarea>
                             </div>
