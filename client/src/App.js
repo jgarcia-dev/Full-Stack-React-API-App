@@ -11,6 +11,8 @@ import UserSignUp from "./components/UserSignUp";
 import UserSignOut from "./components/UserSignOut";
 import PrivateRoute from "./components/PrivateRoute";
 import NotFound from './components/NotFound';
+import Forbidden from "./components/Forbidden";
+import UnhandledError from './components/UnhandledError';
 
 import UserContextProvider from './context/UserContext';
 
@@ -31,8 +33,11 @@ function App() {
             <Route path="create" element={<CreateCourse />} />
             <Route path=":id/update" element={<UpdateCourse />} />
           </Route>
-          {/* Error Route */}
-          <Route path="*" element={<NotFound />} />
+          {/* Error Routes */}
+          <Route path="/notfound" element={<NotFound />} />
+          <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="/error" element={<UnhandledError />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </main>
     </UserContextProvider>
