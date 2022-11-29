@@ -5,14 +5,37 @@ import Cookies from 'js-cookie';
 export const UserContext = createContext(null);
 
 const UserContextProvider = ({ children }) => {
-    const [authenticatedUser, setAuthenticatedUser] = useState("");
-   
-    useEffect(() => {
-        const userCookie = Cookies.get('authenticatedUser')
+
+    const [authenticatedUser, setAuthenticatedUser] = useState(() => getUserAuthCookie());
+    
+    /**
+     * Returns authenticated user cookie from browser if one exists.
+     * @return {object|null} Cookie object or null if none found.
+     */
+    function getUserAuthCookie() {
+        const userCookie = Cookies.get('authenticatedUser');
         if (userCookie) {
-            setAuthenticatedUser(JSON.parse(userCookie));
+            return JSON.parse(userCookie);
+        } else {
+            return null;
         }
-    }, []);
+    }
+
+    /**
+     * Checks if current authenticated user credentials match those stored in browser cookie.
+     * @return {boolean} If authenticated user credentials match cookie, returns true, otherwise false.
+     */
+    const userMatchesCookie = () => {
+        if (authenticatedUser) {
+            const userAuthCookie = getUserAuthCookie();
+            if (userAuthCookie) {
+                if (userAuthCookie.id === authenticatedUser.id) {
+                    return true
+                }
+            }
+        }
+        return false;
+    }
 
     const signIn = async (username, password) => {
         const res = await apiRequest("/users", "GET", null, true, { username, password });
@@ -25,8 +48,6 @@ const UserContextProvider = ({ children }) => {
             }
             setAuthenticatedUser(userData);
             Cookies.set('authenticatedUser', JSON.stringify(userData), { expires: 1 });
-        } else if (res.status === 401) {
-            setAuthenticatedUser(null);
         } else {
             throw new Error();
         }
@@ -39,6 +60,7 @@ const UserContextProvider = ({ children }) => {
 
     const value = {
         authenticatedUser,
+        userMatchesCookie,
         signIn,
         signOut
     }
