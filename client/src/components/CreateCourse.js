@@ -8,7 +8,7 @@ const CreateCourse = () => {
     const [responseErrors, setResponseErrors] = useState([]);
     const courseTitleRef = useRef();
     const navigate = useNavigate();
-    const { authenticatedUser } = useContext(UserContext);
+    const { authenticatedUser, userMatchesCookie } = useContext(UserContext);
 
     useEffect(() => {
         courseTitleRef.current.focus();
@@ -23,27 +23,31 @@ const CreateCourse = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        try {
-            const credentials = {
-                username: authenticatedUser.emailAddress,
-                password: authenticatedUser.password
-            }
-            const courseData = {
-                ...formData,
-                userId: authenticatedUser.id
-            }
-            const res = await apiRequest("/courses", "POST", courseData, true, credentials);
+        if (authenticatedUser && userMatchesCookie()) {
+            try {
+                const credentials = {
+                    username: authenticatedUser.emailAddress,
+                    password: authenticatedUser.password
+                }
+                const courseData = {
+                    ...formData,
+                    userId: authenticatedUser.id
+                }
+                const res = await apiRequest("/courses", "POST", courseData, true, credentials);
 
-            if (res.status === 201) {
-                navigate("/");
-            } else if (res.status === 400) {
-                const failedResponse = await res.json();
-                setResponseErrors(failedResponse.errors);
-            } else {
-                console.log('New course request failed');
+                if (res.status === 201) {
+                    navigate("/");
+                } else if (res.status === 400) {
+                    const failedResponse = await res.json();
+                    setResponseErrors(failedResponse.errors);
+                } else {
+                    console.log('New course request failed');
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        } else {
+            navigate("/signIn");
         }
     }
 
