@@ -51,7 +51,7 @@ const UpdateCourse = () => {
                 const res = await apiRequest(`/courses/${id}`, "PUT", courseDetails, true, credentials);
                 
                 if (res.status === 204) {
-                    console.log("Course Updated")
+                    navigate("/");
                 } else {
                     const failedResponse = await res.json();
                     setValidationErrors(failedResponse.errors);
