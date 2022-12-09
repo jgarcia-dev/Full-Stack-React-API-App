@@ -47,7 +47,7 @@ const CreateCourse = () => {
                 console.log(err);
             }
         } else {
-            navigate("/signIn");
+            navigate("/signOut");
         }
     }
 
