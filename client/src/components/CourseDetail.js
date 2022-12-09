@@ -30,7 +30,7 @@ const CourseDetail = () => {
             }
         }
         fetchCourses();
-    }, []);
+    }, [courseId]);
 
     const handleDelete = async () => {
         try {
