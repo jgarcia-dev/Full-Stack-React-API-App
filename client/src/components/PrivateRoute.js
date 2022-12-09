@@ -3,11 +3,12 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 const PrivateRoute = () => {
-    const { authenticatedUser } = useContext(UserContext);
+    const { authenticatedUser, userMatchesCookie } = useContext(UserContext);
 
-    const userAuth = authenticatedUser;
     return (
-        userAuth ? <Outlet /> : <Navigate to="/" />
+        authenticatedUser && userMatchesCookie() 
+            ? <Outlet /> 
+            : <Navigate to="/forbidden" />
     )
 }
 
