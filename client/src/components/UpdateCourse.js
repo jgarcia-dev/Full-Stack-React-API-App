@@ -9,7 +9,7 @@ const UpdateCourse = () => {
     const [validationErrors, setValidationErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
-    const { authenticatedUser } = useContext(UserContext);
+    const { authenticatedUser, userMatchesCookie } = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,22 +41,26 @@ const UpdateCourse = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const credentials = {
-                username: authenticatedUser.emailAddress,
-                password: authenticatedUser.password
-            }
+        if (authenticatedUser && userMatchesCookie()) {
+            try {
+                const credentials = {
+                    username: authenticatedUser.emailAddress,
+                    password: authenticatedUser.password
+                }
 
-            const res = await apiRequest(`/courses/${id}`, "PUT", courseDetails, true, credentials);
-            
-            if (res.status === 204) {
-                console.log("Course Updated")
-            } else {
-                const failedResponse = await res.json();
-                setValidationErrors(failedResponse.errors);
+                const res = await apiRequest(`/courses/${id}`, "PUT", courseDetails, true, credentials);
+                
+                if (res.status === 204) {
+                    console.log("Course Updated")
+                } else {
+                    const failedResponse = await res.json();
+                    setValidationErrors(failedResponse.errors);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
+        } else {
+            navigate("/signOut");
         }
     }
 
