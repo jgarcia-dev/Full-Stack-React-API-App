@@ -79,55 +79,61 @@ const UpdateCourse = () => {
         } else return null;
     }
 
+    const userOwnCourse = () => {
+        return authenticatedUser.id === courseDetails.userId;
+    }
+
     return (
         <div className="wrap">
             <h2>Update Course</h2>
             { isLoading
                 ? <p>...Loading</p>
-                : <>
-                    {renderAnyValidationErrors()}  
-                    <form onSubmit={handleSubmit}>
-                        <div className="main--flex">
-                            <div>
-                                <label htmlFor="courseTitle">Course Title</label>
-                                <input 
-                                    id="courseTitle" 
-                                    name="title" 
-                                    type="text" 
-                                    value={courseDetails.title || ""}
-                                    onChange={handleChange}
-                                />
-                                <p>{`By ${courseDetails.user.firstName} ${courseDetails.user.lastName}`}</p>
-                                <label htmlFor="courseDescription">Course Description</label>
-                                <textarea 
-                                    id="courseDescription" 
-                                    name="description" 
-                                    value={courseDetails.description || ""}
-                                    onChange={handleChange}
-                                ></textarea>
+                : userOwnCourse() 
+                    ? <>
+                        {renderAnyValidationErrors()}  
+                        <form onSubmit={handleSubmit}>
+                            <div className="main--flex">
+                                <div>
+                                    <label htmlFor="courseTitle">Course Title</label>
+                                    <input 
+                                        id="courseTitle" 
+                                        name="title" 
+                                        type="text" 
+                                        value={courseDetails.title || ""}
+                                        onChange={handleChange}
+                                    />
+                                    <p>{`By ${courseDetails.user.firstName} ${courseDetails.user.lastName}`}</p>
+                                    <label htmlFor="courseDescription">Course Description</label>
+                                    <textarea 
+                                        id="courseDescription" 
+                                        name="description" 
+                                        value={courseDetails.description || ""}
+                                        onChange={handleChange}
+                                    ></textarea>
+                                </div>
+                                <div>
+                                    <label htmlFor="estimatedTime">Estimated Time</label>
+                                    <input 
+                                        id="estimatedTime" 
+                                        name="estimatedTime" 
+                                        type="text"
+                                        value={courseDetails.estimatedTime || ""}
+                                        onChange={handleChange}
+                                    />
+                                    <label htmlFor="materialsNeeded">Materials Needed</label>
+                                    <textarea 
+                                        id="materialsNeeded" 
+                                        name="materialsNeeded"
+                                        value={courseDetails.materialsNeeded || ""}
+                                        onChange={handleChange}
+                                    ></textarea>
+                                </div>
                             </div>
-                            <div>
-                                <label htmlFor="estimatedTime">Estimated Time</label>
-                                <input 
-                                    id="estimatedTime" 
-                                    name="estimatedTime" 
-                                    type="text"
-                                    value={courseDetails.estimatedTime || ""}
-                                    onChange={handleChange}
-                                />
-                                <label htmlFor="materialsNeeded">Materials Needed</label>
-                                <textarea 
-                                    id="materialsNeeded" 
-                                    name="materialsNeeded"
-                                    value={courseDetails.materialsNeeded || ""}
-                                    onChange={handleChange}
-                                ></textarea>
-                            </div>
-                        </div>
-                        <button className="button">Update Course</button>
-                        <button className="button button-secondary" type="button" onClick={handleCancel}>Cancel</button>
-                    </form>
-                </>
+                            <button className="button">Update Course</button>
+                            <button className="button button-secondary" type="button" onClick={handleCancel}>Cancel</button>
+                        </form>
+                    </>
+                : <Navigate to="/forbidden" />
             }
         </div>
     )
