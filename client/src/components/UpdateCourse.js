@@ -5,7 +5,6 @@ import apiRequest from '../utilities/apiRequest';
 
 const UpdateCourse = () => {
     const [courseDetails, setCourseDetails] = useState(null);
-    const [hasFetchError, setHasFetchError] = useState(null);
     const [validationErrors, setValidationErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
@@ -16,14 +15,15 @@ const UpdateCourse = () => {
         const fetchCourseDetails = async () => {
             try {
                 const res = await fetch(`http://localhost:5000/api/courses/${id}`);
-                if (res.status !== 200) {
-                    throw new Error(`Fetch failed, status: ${res.status}`);
+                if (res.status === 200) {
+                    const courseData = await res.json();
+                    setCourseDetails(courseData);
+                } else {
+                    navigate("/notfound");
                 }
-                const courseData = await res.json();
-                setCourseDetails(courseData);
-                setHasFetchError(null);
             } catch (err) {
-                setHasFetchError(err.message);
+                console.log(err);
+                navigate("/error");
             } finally {
                 setIsLoading(false);
             }
@@ -84,9 +84,7 @@ const UpdateCourse = () => {
             <h2>Update Course</h2>
             { isLoading
                 ? <p>...Loading</p>
-                :  hasFetchError
-                    ? <Navigate replace to="*" />
-                    : <>
+                : <>
                     {renderAnyValidationErrors()}  
                     <form onSubmit={handleSubmit}>
                         <div className="main--flex">
