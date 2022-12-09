@@ -9,14 +9,14 @@ const CourseDetail = () => {
     const [courseDetails, setCourseDetails] = useState([]);
     const [errorFetching, setErrorFetching] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const { id } = useParams();
-    const { authenticatedUser } = useContext(UserContext);
+    const { id : courseId } = useParams();
+    const { authenticatedUser, userMatchesCookie } = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/courses/${id}`);
+                const res = await fetch(`http://localhost:5000/api/courses/${courseId}`);
                 if (res.status !== 200) {
                     throw Error (`Data not received, error: ${res.status}`);
                 }
@@ -38,7 +38,7 @@ const CourseDetail = () => {
                 username: authenticatedUser.emailAddress,
                 password: authenticatedUser.password
             }
-            const res = await apiRequest(`/courses/${id}`, "DELETE", null, true, credentials);
+            const res = await apiRequest(`/courses/${courseId}`, "DELETE", null, true, credentials);
             if (res.status === 204) {
                 navigate("/");
             }
@@ -50,18 +50,28 @@ const CourseDetail = () => {
         }
     }
 
+    const renderActionButtons = () => {
+        if (authenticatedUser) {
+            if (userMatchesCookie()) {
+                if (authenticatedUser.id === courseDetails.userId) {
+                    return (
+                        <>
+                            <Link className="button" to={`/courses/${courseId}/update`}>Update Course</Link>
+                            <button className="button" onClick={handleDelete}>DeleteCourse</button>
+                        </>
+                    )
+                }
+            }
+        }
+        
+        return null;
+    }
+
     return (
         <>
             <div className="actions--bar">
                 <div className="wrap">
-                    { authenticatedUser && authenticatedUser.id === courseDetails.userId
-                        ? 
-                        <>
-                            <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
-                            <button className="button" onClick={handleDelete}>DeleteCourse</button>
-                        </>
-                        : null
-                    }
+                    { renderActionButtons() }
                     <Link className="button button-secondary" to="/">Return to List</Link>
                 </div>
             </div>
