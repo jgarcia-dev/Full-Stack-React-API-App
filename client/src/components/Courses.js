@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/courses')
-            .then( res => res.json() )
-            .then( data => setCourses(data))
-            .catch( err => console.log('Oh noes', err))
-            .finally(() => setIsLoading(false));
+        const fetchCourses = async () => {
+            try {
+                const res = await fetch('http://localhost:5000/api/courses');
+                if (res.status === 200) {
+                    const coursesData = await res.json();
+                    setCourses(coursesData);
+                } else if (res.status === 500) {
+                    navigate("/error");
+                } else {
+                    navigate("/notfound");
+                }
+            } catch (err) {
+                console.log(err);
+                navigate("/error");
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchCourses();
     }, []);
 
     const renderCourseLinks = () => {
