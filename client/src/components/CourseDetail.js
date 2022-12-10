@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import { UserContext } from '../context/UserContext';
-import NotFound from './NotFound';
 import apiRequest from '../utilities/apiRequest';
 
 const CourseDetail = () => {
@@ -41,12 +40,17 @@ const CourseDetail = () => {
             const res = await apiRequest(`/courses/${courseId}`, "DELETE", null, true, credentials);
             if (res.status === 204) {
                 navigate("/");
+            } else if (res.status === 500) {
+                navigate("/error");
+            } else if (res.status === 401) {
+                navigate("/forbidden");
             }
             else {
-                console.log("Course not deleted");
+                navigate("/notfound");
             }
-        } catch {
-            console.log("Something went wrong");
+        } catch (err) {
+            console.log(err);
+            navigate("/error");
         }
     }
 
