@@ -36,15 +36,21 @@ const CreateCourse = () => {
                 const res = await apiRequest("/courses", "POST", courseData, true, credentials);
 
                 if (res.status === 201) {
+                    console.log(res.status)
                     navigate("/");
                 } else if (res.status === 400) {
                     const failedResponse = await res.json();
                     setResponseErrors(failedResponse.errors);
+                } else if (res.status === 401) {
+                    navigate("/forbidden");
+                } else if (res.status === 500) {
+                    navigate("/error");
                 } else {
-                    console.log('New course request failed');
+                    navigate("/notfound");
                 }
             } catch (err) {
                 console.log(err);
+                navigate("/error");
             }
         } else {
             navigate("/signOut");

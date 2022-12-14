@@ -24,18 +24,18 @@ const UserSignUp = () => {
             if (res.status === 201) {
                 signIn(formData.emailAddress, formData.password);
                 navigate("/");
+            } else if (res.status === 400) {
+                const failedResponse = await res.json();
+                setSubmitErrors(failedResponse.errors);
+            } else if (res.status === 404) {
+                navigate("/notfound");
             }
             else {
-                const failedResponse = await res.json();
-                if (failedResponse.errors.length > 0) {
-                    setSubmitErrors(failedResponse.errors);
-                }
-                else {
-                    throw new Error("No user created");
-                }
+              navigate("error");
             }
         } catch (err) {
-            console.log(`Error with request: ${err}`);
+            console.log(err);
+            navigate("/error");
         }
     }
 

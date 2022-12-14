@@ -52,12 +52,19 @@ const UpdateCourse = () => {
                 
                 if (res.status === 204) {
                     navigate("/");
-                } else {
+                } else if (res.status === 400) {
                     const failedResponse = await res.json();
                     setValidationErrors(failedResponse.errors);
+                } else if (res.status === 500) {
+                    navigate("/error");
+                } else if (res.status === 401) {
+                    navigate("/forbidden");
+                } else {
+                    navigate("/notfound");
                 }
             } catch (err) {
                 console.log(err);
+                navigate("/error");
             }
         } else {
             navigate("/signOut");
