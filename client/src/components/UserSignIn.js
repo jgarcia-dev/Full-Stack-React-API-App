@@ -1,17 +1,28 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const UserSignIn = () => {
+const UserSignIn = (props) => {
     const { signIn } = useContext(UserContext);
     const [ emailAddress, setEmailAddress ] = useState("");
     const [ password, setPassword ] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
+    
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        signIn(emailAddress, password);
-        navigate("/");
+        await signIn(emailAddress, password);
+
+        // if location state set in PrivateRoute component
+        const validPrevLocation = location.state ? location.state.from.pathname : undefined;
+
+        if (validPrevLocation) {
+            console.log(validPrevLocation);
+            navigate(validPrevLocation, {replace:true});
+        } else {
+            navigate(-1, {replace:true});
+        }
     }
 
     const handleCancel = (event) => {
