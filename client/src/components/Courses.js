@@ -26,7 +26,7 @@ const Courses = () => {
             }
         }
         fetchCourses();
-    }, []);
+    }, [navigate]);
 
     const renderCourseLinks = () => {
         const coursesLinks = courses.map( course => (

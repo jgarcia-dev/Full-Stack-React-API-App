@@ -30,7 +30,7 @@ const UpdateCourse = () => {
         }
 
         fetchCourseDetails();
-    }, [id]);
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         setCourseDetails({
