@@ -19,7 +19,6 @@ const UserSignUp = () => {
     const handleSubmit = async (e)=> {
         e.preventDefault();
         try {
-            const credentials = formData;
             const res = await apiRequest("/users", "POST", formData);
             if (res.status === 201) {
                 signIn(formData.emailAddress, formData.password);
