@@ -37,20 +37,30 @@ const UserContextProvider = ({ children }) => {
         return false;
     }
 
+    /**
+     * Calls method to make API call to verify user entered correct credentials and sets user state and cookie.
+     * @param {string} username For API user validation
+     * @param {string} password For API user validation
+     * @returns {object|null} If valid credentials provided will return user object, else null. Throws error if fetch fails.
+     */
     const signIn = async (username, password) => {
-        const res = await apiRequest("/users", "GET", null, true, { username, password });
-        
-        if (res.status === 200) {
-            const user = await res.json();
-            const userData = {
-                ...user,
-                password
+        let user = null;
+        try {
+            const res = await apiRequest("/users", "GET", null, true, { username, password });
+            
+            if (res.status === 200) {
+                user = await res.json();
+                const userData = {
+                    ...user,
+                    password
+                }
+                setAuthenticatedUser(userData);
+                Cookies.set('authenticatedUser', JSON.stringify(userData), { expires: 1 });
             }
-            setAuthenticatedUser(userData);
-            Cookies.set('authenticatedUser', JSON.stringify(userData), { expires: 1 });
-        } else {
-            throw new Error();
+        } catch (err) {
+            throw err;
         }
+        return user;
     }
 
     const signOut = () => {

@@ -6,22 +6,57 @@ const UserSignIn = (props) => {
     const { signIn } = useContext(UserContext);
     const [ emailAddress, setEmailAddress ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ signInError, setSignInError ] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    
 
+
+    /**
+     * Handles sign in submission
+     * If sign in credentials valid, resets error state and navigates user to last valid page visited.
+     * If credentials not valid sets sign in error state.
+     * If fetch error, navigates user to error page.
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await signIn(emailAddress, password);
+        try {
+            const user = await signIn(emailAddress, password);
 
-        // if location state set in PrivateRoute component
-        const validPrevLocation = location.state ? location.state.from.pathname : undefined;
+            if (user) {
+                setSignInError("");
 
-        if (validPrevLocation) {
-            console.log(validPrevLocation);
-            navigate(validPrevLocation, {replace:true});
+                // location state set in PrivateRoute component
+                const validPrevLocation = location.state ? location.state.from.pathname : undefined;
+
+                if (validPrevLocation) {
+                    navigate(validPrevLocation, {replace:true});
+                } else {
+                    navigate("/");
+                }
+            } else {
+                setSignInError("Invalid Credentials");
+            }
+        } catch (err) {
+            console.log(err);
+            navigate("/error");
+        }
+    }
+
+    /**
+     * @returns {JSX.Element|null} JSX for error display if error in state, else returns null.
+     */
+    const renderSignInError = () => {
+        if (signInError) {
+            return (
+                <div className='validation--errors'>
+                    <h3>Sign In Error</h3>
+                    <ul>
+                        <li>{signInError}</li>
+                    </ul>
+                </div>
+            )
         } else {
-            navigate(-1, {replace:true});
+            return null;
         }
     }
 
@@ -32,6 +67,7 @@ const UserSignIn = (props) => {
 
     return (
         <div className="form--centered">
+            {renderSignInError()}
             <h2>Sign In</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="emailAddress">Email Address</label>
