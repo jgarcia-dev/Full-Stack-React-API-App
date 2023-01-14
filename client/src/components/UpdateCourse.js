@@ -3,6 +3,11 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import apiRequest from '../utilities/apiRequest';
 
+/**
+ * Component renders a form for updating course data.
+ * Verifies user authentication before submission.
+ * Prompts user of validation errors with submission.
+ */
 const UpdateCourse = () => {
     const [courseDetails, setCourseDetails] = useState(null);
     const [validationErrors, setValidationErrors] = useState([]);
@@ -11,6 +16,11 @@ const UpdateCourse = () => {
     const { authenticatedUser, userMatchesCookie } = useContext(UserContext);
     const navigate = useNavigate();
 
+    /**
+     * Fetches course data
+     * Handles errors with redirect to appropriate error page.
+     * Sets loading state
+     */
     useEffect(() => {
         const fetchCourseDetails = async () => {
             try {
@@ -39,6 +49,11 @@ const UpdateCourse = () => {
         });
     }
 
+    /**
+     * Verifies user authentication
+     * Sends PUT request to update course data.
+     * Handles errors with redirect to appropriate error page.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (authenticatedUser && userMatchesCookie()) {
@@ -75,6 +90,10 @@ const UpdateCourse = () => {
         navigate(`/courses/${id}`);
     }
 
+    /**
+     * Gets validation errors.
+     * @returns {JSX.Element} JSX for validation errors.
+     */
     const renderAnyValidationErrors = () => {
         if (validationErrors.length > 0) {
             return (
@@ -86,6 +105,10 @@ const UpdateCourse = () => {
         } else return null;
     }
 
+    /**
+     * Checks if authenticated user id matches the owner id of course.
+     * @returns {boolean} If authenticated user owns current course returns true, else false.
+     */
     const userOwnCourse = () => {
         return authenticatedUser.id === courseDetails.userId;
     }

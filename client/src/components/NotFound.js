@@ -1,3 +1,6 @@
+/**
+ * Component renders when user tries to access non-existent page.
+ */
 const NotFound = () => {
     return (
         <div className="wrap">

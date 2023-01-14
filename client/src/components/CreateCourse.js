@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import apiRequest from '../utilities/apiRequest';
 
+/**
+ * Component renders form for adding a new course.
+ * Verifies user authentication before submission.
+ * Prompts user of validation errors with submission.
+ */
 const CreateCourse = () => {
     const [formData, setFormData] = useState({});
     const [responseErrors, setResponseErrors] = useState([]);
@@ -21,6 +26,11 @@ const CreateCourse = () => {
         })
     }
 
+    /**
+     * Verifies user authentication.
+     * Sends POST request for new course.
+     * Handles errors with redirect to appropriate error page.
+     */
     const handleSubmit = async(e) => {
         e.preventDefault()
         if (authenticatedUser && userMatchesCookie()) {
@@ -61,6 +71,10 @@ const CreateCourse = () => {
         navigate("/");
     }
 
+    /**
+     * Gets validation errors.
+     * @returns {JSX.Element} JSX for validation errors.
+     */
     const renderErrors = () => {
         return (
             <div className="validation--errors">

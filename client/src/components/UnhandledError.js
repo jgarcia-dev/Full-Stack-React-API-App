@@ -1,3 +1,6 @@
+/**
+ * Component renders a error page.
+ */
 const UnhandledError = () => {
     return (
         <div className="wrap">

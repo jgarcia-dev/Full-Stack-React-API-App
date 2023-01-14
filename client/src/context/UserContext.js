@@ -4,6 +4,11 @@ import Cookies from 'js-cookie';
 
 export const UserContext = createContext(null);
 
+/**
+ * User context that manages global user authentication state.
+ * Contains methods for signing in and signing out.
+ * Contains methods for managing user authentication cookie.
+ */
 const UserContextProvider = ({ children }) => {
 
     const [authenticatedUser, setAuthenticatedUser] = useState(() => getUserAuthCookie());

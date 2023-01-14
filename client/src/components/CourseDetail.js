@@ -4,6 +4,12 @@ import ReactMarkdown from 'react-markdown'
 import { UserContext } from '../context/UserContext';
 import apiRequest from '../utilities/apiRequest';
 
+
+/**
+ * Component retrieves course details from REST API.
+ * Renders course detail and Return to List action buttons.
+ * Renders Update and Delete action buttons if user is authenticated.
+ */
 const CourseDetail = () => {
     const [courseDetails, setCourseDetails] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +17,11 @@ const CourseDetail = () => {
     const { authenticatedUser, userMatchesCookie } = useContext(UserContext);
     const navigate = useNavigate();
 
+    /**
+     * Fetches course details and sets data in state.
+     * Sets loading state status.
+     * Handles errors with redirect to appropriate error page.
+     */
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -31,6 +42,12 @@ const CourseDetail = () => {
         fetchCourses();
     }, [courseId, navigate]);
 
+
+    /**
+     * Sends request to delete course to REST API.
+     * Redirects to home page on success.
+     * Handles errors with redirect to appropriate error page.
+     */
     const handleDelete = async () => {
         try {
             const credentials = {
@@ -54,6 +71,10 @@ const CourseDetail = () => {
         }
     }
 
+    /**
+     * Checks if user is authenticated.
+     * @returns {JSX.Element|null} JSX for displaying action buttons if user is authentication, else returns null.
+     */
     const renderActionButtons = () => {
         if (authenticatedUser) {
             if (userMatchesCookie()) {

@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiRequest from '../utilities/apiRequest';
 import { UserContext } from '../context/UserContext';
 
+/**
+ * Components renders sign up form.
+ * Displays validation errors.
+ */
 const UserSignUp = () => {
     const [formData, setFormData] = useState({});
     const [submitErrors, setSubmitErrors] = useState([]);
@@ -16,6 +20,12 @@ const UserSignUp = () => {
         });
     }
     
+    /**
+     * Handles sign up submission.
+     * If sign up successful, signs in user and redirects to home page.
+     * Sets validation errors if any.
+     * Redirects on error to appropriate error page.
+     */
     const handleSubmit = async (e)=> {
         e.preventDefault();
         try {
@@ -42,6 +52,9 @@ const UserSignUp = () => {
         navigate("/");
     }
 
+    /**
+     * @returns {JSX.Element} JSX for error display if validation errors.
+     */
     const renderErrors = () => {
         return (
             <div className="validation--errors">

@@ -2,6 +2,11 @@ import React, { useContext } from "react";
 import { Link } from 'react-router-dom';
 import { UserContext } from "../context/UserContext";
 
+/**
+ * Component renders top menu bar.
+ * Displays user name and sign out button if user is authenticated.
+ * If non authenticated user, renders sign up and sign in buttons.
+ */
 const Header = ()=> {
     const { authenticatedUser } = useContext(UserContext);
 

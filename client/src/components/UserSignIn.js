@@ -2,6 +2,10 @@ import React, { useState, useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
+/**
+ * Component renders sign in form.
+ * Displays sign in error if invalid credentials.
+ */
 const UserSignIn = (props) => {
     const { signIn } = useContext(UserContext);
     const [ emailAddress, setEmailAddress ] = useState("");

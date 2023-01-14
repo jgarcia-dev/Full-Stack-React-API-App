@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+/**
+ * Component retrieves course list from REST API.
+ * Renders course list with links.
+ */
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
+    /**
+     * Fetches course list and sets data in state.
+     * Sets loading state status.
+     * Handles errors with redirect to appropriate error page.
+     */
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -28,6 +37,10 @@ const Courses = () => {
         fetchCourses();
     }, [navigate]);
 
+    /**
+     * Maps course data to individual Link
+     * @returns {JSX.Element} JSX containing course links.
+     */
     const renderCourseLinks = () => {
         const coursesLinks = courses.map( course => (
             <Link 

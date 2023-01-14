@@ -1,6 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
 
+/**
+ * Component renders when user tries to access forbidden page.
+ */
 const Forbidden = () => {
     const { signOut } = useContext(UserContext);
     
